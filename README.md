@@ -32,10 +32,16 @@ Edit `~/.config/cosmic/com.system76.CosmicComp/v1/workspaces`:
 
 | Action | Input |
 |---|---|
-| Move to neighbor cell (4 directions) | 4-finger swipe / Super+Arrow |
-| Open workspace overview | Super (unchanged) |
+| Move to neighbor cell (4 directions) | 4-finger swipe / Super+Arrow* |
+| Open workspace overview | Super+W |
 | Move window to neighbor cell | drag window into a cell in overview |
 | Switch to cell 1–9 | Super+1…9 (top row, left-to-right; cells created on demand) |
+
+\* Stock COSMIC binds Super+Arrows to window-focus navigation. For grid movement,
+rebind them to Next/Previous Workspace in Settings → Keyboard → Shortcuts (or add
+to `~/.config/cosmic/com.system76.CosmicSettings.Shortcuts/v1/custom` — custom
+bindings override defaults). Window focus stays on Super+h/j/k/l. This machine
+has the arrow rebind pre-applied.
 
 Swipe feel: your existing up/down convention is preserved exactly (with
 `natural_scroll` on, an up swipe reveals the next row below, matching stock).
