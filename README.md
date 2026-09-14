@@ -55,6 +55,20 @@ Left/right is additive.
   workspaces are removed automatically, like stock COSMIC.
 - Each monitor gets its own 5×5 grid (`OutputBound` mode, unchanged).
 
+## Get the source
+
+```bash
+git clone --recurse-submodules https://github.com/Shaarkymoo/cosmic-grid.git
+```
+
+The patched compositor and overview live on the `cosmic-grid` branch of these
+forks:
+
+- [Shaarkymoo/cosmic-comp](https://github.com/Shaarkymoo/cosmic-comp) — pinned
+  at the exact installed commit (`bb584aa`) + 2 patch commits
+- [Shaarkymoo/cosmic-workspaces-epoch](https://github.com/Shaarkymoo/cosmic-workspaces-epoch)
+  — pinned at 1.0.12 + 2 patch commits
+
 ## Build
 
 ```bash
@@ -69,9 +83,7 @@ sudo apt install -y cmake pkg-config libegl1-mesa-dev libfontconfig-dev \
   libudev-dev libxcb1-dev libxkbcommon-dev libdisplay-info-dev libfreetype-dev
 ```
 
-Both repos are pinned: cosmic-comp at the exact installed commit (`bb584aa`),
-cosmic-workspaces at 1.0.12. Patches live on the `cosmic-grid` branch of each
-checkout.
+Patches live on the `cosmic-grid` branch of each submodule checkout.
 
 ## Install / Rollback
 
