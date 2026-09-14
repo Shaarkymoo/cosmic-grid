@@ -1,0 +1,9 @@
+[submodule "cosmic-comp"]
+	path = cosmic-comp
+	url = https://github.com/Shaarkymoo/cosmic-comp.git
+	branch = cosmic-grid
+
+[submodule "cosmic-workspaces"]
+	path = cosmic-workspaces
+	url = https://github.com/Shaarkymoo/cosmic-workspaces-epoch.git
+	branch = cosmic-grid
