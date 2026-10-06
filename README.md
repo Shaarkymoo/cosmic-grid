@@ -64,8 +64,8 @@ git clone --recurse-submodules https://github.com/Shaarkymoo/cosmic-grid.git
 The patched compositor and overview live on the `cosmic-grid` branch of these
 forks:
 
-- [Shaarkymoo/cosmic-comp](https://github.com/Shaarkymoo/cosmic-comp) — pinned
-  at the exact installed commit (`bb584aa`) + 2 patch commits
+- [Shaarkymoo/cosmic-comp](https://github.com/Shaarkymoo/cosmic-comp) — rebased
+  onto upstream `0fbd4574` + 2 patch commits
 - [Shaarkymoo/cosmic-workspaces-epoch](https://github.com/Shaarkymoo/cosmic-workspaces-epoch)
   — pinned at 1.0.12 + 2 patch commits
 
@@ -88,29 +88,56 @@ Patches live on the `cosmic-grid` branch of each submodule checkout.
 ## Install / Rollback
 
 ```bash
-sudo ./scripts/install.sh    # backs up stock binaries to stock/, replaces, holds packages
-sudo ./scripts/rollback.sh   # restores stock binaries, releases holds
+sudo ./scripts/install.sh    # backs up stock binaries, replaces, holds packages, installs apt pin
+sudo ./scripts/rollback.sh   # restores stock binaries, releases holds, removes pin
 ```
 
-Installing replaces only `/usr/bin/cosmic-comp` and `/usr/bin/cosmic-workspaces`
-and runs `apt-mark hold` on both. Rollback restores the archived originals.
-Log out/in after either.
+Installing replaces only `/usr/bin/cosmic-comp` and `/usr/bin/cosmic-workspaces`,
+runs `apt-mark hold` on both, and installs `/etc/apt/preferences.d/99-cosmic-grid.pin`
+to block accidental upgrades. Log out/in after either.
 
-## Updating COSMIC later
+**Build on ext4, not the `Data` drive** — NTFS silently kills cargo builds.
+Use an ext4 working copy (e.g. `~/cosmic-grid-build/`).
 
-Packages are held, so `apt upgrade` won't touch them. To move to a newer COSMIC
-release:
+## Updates & maintenance
 
-1. `sudo ./scripts/rollback.sh` (stock binaries back, holds released)
-2. Upgrade COSMIC normally
-3. Re-apply the patch: rebase/apply the `cosmic-grid` branch commits onto the
-   new pinned commit(s), rebuild, reinstall. Expect small conflicts as upstream
-   evolves.
+`cosmic-comp` and `cosmic-workspaces` are **manually managed** — everything else
+updates normally. Two layers protect the patched binaries:
+
+- `apt-mark hold` — blocks implicit upgrades
+- `/etc/apt/preferences.d/99-cosmic-grid.pin` (priority 1002) — blocks **even an
+  explicitly-named `apt upgrade cosmic-comp`**, which is what bypasses a hold
+
+Keep in mind:
+
+- **Never** `apt reinstall`/`apt --reinstall install` cosmic-comp or
+  cosmic-workspaces — that restores stock files over the patch.
+- If an `apt full-upgrade` holds back cosmic packages or errors about a dependency
+  wanting a newer `cosmic-comp`, that's the pin working, not a bug.
+- The COSMIC Store may still *show* an update for these; apt will refuse it.
+- **Build on ext4** (e.g. `~/cosmic-grid-build/`), never on the NTFS `Data` drive.
+- A Pop!_OS release upgrade re-checks everything — plan to re-patch afterwards.
+
+Health check:
+
+```bash
+apt-mark showhold
+ls -l /etc/apt/preferences.d/99-cosmic-grid.pin
+```
+
+### Moving to a newer COSMIC on purpose
+1. `sudo ./scripts/rollback.sh` (stock back, holds + pin removed).
+2. Upgrade COSMIC normally.
+3. Re-apply the two patch commits onto the new upstream commit, rebuild on ext4,
+   reinstall (resolve any conflicts as upstream evolves).
+4. Update the version strings in `scripts/99-cosmic-grid.pin` to the new versions
+   before re-running `install.sh`.
+
+Full incident history, the exact recovery playbook, and pending git state are in
+[`NOTES.md`](NOTES.md).
 
 ## Known limitations (v1)
 
-- During a swipe animation the slide axis follows the workspace layout
-  (vertical) — horizontal swipes land correctly but animate vertically.
 - Super+Shift+Arrows (move window) still use linear next/previous, not the grid.
 - Drag-reorder of workspace cells is disabled; toplevels can still be dragged
   into any cell.
@@ -119,8 +146,10 @@ release:
 
 ## Files
 
+- `README.md` — this file
+- `NOTES.md` — project history, maintenance & recovery reference
 - `cosmic-comp/` — compositor source, `cosmic-grid` branch
 - `cosmic-workspaces/` — overview app source, `cosmic-grid` branch
-- `stock/` — archived original binaries
-- `scripts/` — build / install / rollback
+- `stock/` — archived stock binaries
+- `scripts/` — build / install / rollback + apt pin
 - `docs/superpowers/specs/` — design spec
