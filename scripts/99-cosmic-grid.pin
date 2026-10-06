@@ -1,0 +1,7 @@
+Package: cosmic-comp
+Pin: version 0.1~1790118748~24.04~0fbd457
+Pin-Priority: 1002
+
+Package: cosmic-workspaces
+Pin: version 1.0.12~1782227681~24.04~6b5cded
+Pin-Priority: 1002

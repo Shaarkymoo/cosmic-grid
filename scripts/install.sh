@@ -30,6 +30,10 @@ echo "==> Holding packages against updates"
 apt-mark hold cosmic-comp cosmic-workspaces
 apt-mark showhold
 
+echo "==> Installing apt pin (blocks even explicitly-named upgrades)"
+install -m 644 "$ROOT/scripts/99-cosmic-grid.pin" /etc/apt/preferences.d/99-cosmic-grid.pin
+echo "  installed /etc/apt/preferences.d/99-cosmic-grid.pin"
+
 echo
 echo "Installed. Log out and back in (or reboot) to activate the grid."
 echo "Roll back any time with:  sudo ./scripts/rollback.sh"

@@ -20,5 +20,9 @@ echo "==> Releasing package holds"
 apt-mark unhold cosmic-comp cosmic-workspaces || true
 apt-mark showhold || true
 
+echo "==> Removing apt pin"
+rm -f /etc/apt/preferences.d/99-cosmic-grid.pin
+echo "  removed /etc/apt/preferences.d/99-cosmic-grid.pin"
+
 echo
 echo "Stock binaries restored. Log out and back in to revert to the default layout."
