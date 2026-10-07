@@ -148,8 +148,9 @@ Full incident history, the exact recovery playbook, and pending git state are in
 
 - `README.md` — this file
 - `NOTES.md` — project history, maintenance & recovery reference
+- `docs/WRITEUP.md` — purpose, decisions, problems & solutions (writeup source)
+- `docs/superpowers/specs/` — original design spec
 - `cosmic-comp/` — compositor source, `cosmic-grid` branch
 - `cosmic-workspaces/` — overview app source, `cosmic-grid` branch
 - `stock/` — archived stock binaries
 - `scripts/` — build / install / rollback + apt pin
-- `docs/superpowers/specs/` — design spec

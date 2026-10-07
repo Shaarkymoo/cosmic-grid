@@ -196,26 +196,20 @@ updates normally.
 
 ---
 
-## Pending git state (as of 2026-10-06)
+## Git state (synced — verified 2026-10-06)
 
-- The rebased cosmic-comp commits live on local branch **`cosmic-grid-0fbd4574`**
-  (`c0210956`, `8ba84d98`). The fork (`Shaarkymoo/cosmic-comp`) still has the OLD
-  `cosmic-grid` branch (`54f7719`) because the rebase rewrote history.
-- To sync the fork (history rewrite → force push):
+- `cosmic-comp` local branch `cosmic-grid` = `8ba84d98`; fork
+  `Shaarkymoo/cosmic-comp` refs/heads/cosmic-grid = `8ba84d98` (force-pushed after
+  the rebase). Verified via `git ls-remote fork cosmic-grid`.
+- `cosmic-workspaces` branch `cosmic-grid` = `71e81b8`; fork matches.
+- Superproject gitlinks: `cosmic-comp` → `8ba84d98`, `cosmic-workspaces` → `71e81b8`.
+  Working tree clean.
+- **Loose end:** the superproject `main` is **ahead 1** of `origin/main`
+  (commit `a0dd35c Update submodule to rebased patch`). Publish with:
   ```bash
-  cd cosmic-comp
-  git branch -f cosmic-grid 8ba84d98      # move branch to the rebased tip
-  git checkout cosmic-grid
-  git push --force fork cosmic-grid
+  cd /media/shaarky/Data/Projects/cosmic-grid && git push origin main
   ```
-- The superproject gitlinks are stale (`cosmic-comp` recorded at `54f7719`,
-  `cosmic-workspaces` at `71e81b8`; working tree shows `M cosmic-comp`). After the
-  force-push, update the gitlink:
-  ```bash
-  cd /media/shaarky/Data/Projects/cosmic-grid
-  git add cosmic-comp && git commit -m "Update cosmic-comp submodule to rebased 0fbd4574 patch"
-  ```
-- `cosmic-workspaces` is unchanged (still `71e81b8` on branch `cosmic-grid`).
+- The old pre-rebase commits remain reachable locally via `cosmic-grid-backup`.
 
 ---
 
